@@ -9,6 +9,9 @@ export const mutations = {
 
   SimpleMutation (state, { text }) {
     state.simpleText = text
+  },
+  SetUser (state, { user }) {
+    state.user = user
   }
 
 }
