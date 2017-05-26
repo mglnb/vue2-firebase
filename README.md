@@ -499,7 +499,55 @@ Usamos o método addPost apenas para testar, veja que definimos um provider e o 
 
 Após o usuário logar no github dele, o callback é executado e devemos guardar o `token` no vuex para uso durante a aplicação. 
 
+## Obtendo o usuario logado
 
+Use `firebase.auth().currentUser` para saber se o usuáro está logado. Isso retorna um objeto
+
+Para obter informações do usuário:
+
+```js
+var user = firebase.auth().currentUser;
+var name, email, photoUrl, uid;
+
+if (user != null) {
+  name = user.displayName;
+  email = user.email;
+  photoUrl = user.photoURL;
+  uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                   // this value to authenticate with your backend server, if
+                   // you have one. Use User.getToken() instead.
+}
+```
+
+Mais infos [aqui](https://firebase.google.com/docs/auth/web/manage-users)
+
+## Logout
+
+```js
+firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+}, function(error) {
+  // An error happened.
+});
+```
+
+## Regras de escrita no BD
+
+Devemos fazer com que os dados de um usuário logado sejam exclusivos. Para isso, edite novamente as regras de acesso ao database, mudando para
+
+```json
+{
+  "rules": {
+    "users": {
+      "$user_id": {
+        // grants write access to the owner of this user account
+        // whose uid must exactly match the key ($user_id)
+        ".write": "$user_id === auth.uid"
+      }
+    }
+  }
+}
+```
 
 
 

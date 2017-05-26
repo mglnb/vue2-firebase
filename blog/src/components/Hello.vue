@@ -30,7 +30,6 @@
             this.post = { title: '' }
           }
         )
-         */
         var provider = new firebase.auth.GithubAuthProvider()
         firebase.auth().signInWithPopup(provider).then(function (result) {
           // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -43,6 +42,9 @@
         }).catch(function (error) {
           console.warn(error)
         })
+      */
+
+        console.log(firebase.auth().currentUser)
       }
     }
   }
@@ -51,5 +53,5 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
- 
+
 </style>
