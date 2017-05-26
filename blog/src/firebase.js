@@ -1,6 +1,6 @@
 import Firebase from 'firebase'
 
-export const FirebaseApp = Firebase.initializeApp({
+var FirebaseApp = Firebase.initializeApp({
   apiKey: 'AIzaSyC17mIsDkk38TZGnI9mBjzFIoCu904snn0',
   authDomain: 'vue2napratica.firebaseapp.com',
   databaseURL: 'https://vue2napratica.firebaseio.com',
@@ -9,4 +9,3 @@ export const FirebaseApp = Firebase.initializeApp({
   messagingSenderId: '779719236528'
 })
 export const db = FirebaseApp.database()
-export const githubProvider = FirebaseApp.auth.GithubAuthProvider()

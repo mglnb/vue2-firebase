@@ -436,6 +436,70 @@ Para usar o firebase:
 
 ## Autenticação pelo Github
 
+O Firebase promove vários tipos de autenticação. Vamos usar a do Github. Após obter a autenticação recebemos um token que deve ser guardado no vuex.
+
+Primeiro é preciso ter uma conta no Github para criar um [aplicativo GitHub](https://github.com/settings/developers):
+
+![](images/firebase-oauth.png)
+
+Após criar o aplicativo oAuth do Github você tem acesso ao *ClientID* e *Client Secret* que deve ser copiado e colado no projeto Firebase. No Firebase, acesse *Authentication* e *Métodos de Login*, encontre o item GitHub e clique nele. Forneça os dados de acordo com a imagem a seguir:
+
+![](images/firebase-oauth-2.png)
+
+Apenas como teste, vamos voltar no componente Hello.vue para testar o login:
+
+```html
+<script>
+  import { db } from '../firebase'
+  import firebase from 'firebase'
+
+  export default {
+    name: 'hello',
+    data () {
+      return {
+        post: {
+          title: ''
+        }
+      }
+    },
+    firebase: {
+      posts: db.ref('posts')
+    },
+    methods: {
+      addPost: function () {
+        /*
+        this.$firebaseRefs.posts.push(this.post).then(
+          (r) => {
+            this.post = { title: '' }
+          }
+        )
+         */
+        var provider = new firebase.auth.GithubAuthProvider()
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+          // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+          var token = result.credential.accessToken
+          console.log(token)
+          // The signed-in user info.
+          var user = result.user
+          console.log(user)
+          // ...
+        }).catch(function (error) {
+          console.warn(error)
+        })
+      }
+    }
+  }
+
+</script>
+```
+
+Usamos o método addPost apenas para testar, veja que definimos um provider e o método `signInWithPopup` para abrir um popoup como este:
+
+![](images/firebase-oauth-2.png)
+
+Após o usuário logar no github dele, o callback é executado e devemos guardar o `token` no vuex para uso durante a aplicação. 
+
+
 
 
 
