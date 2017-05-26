@@ -23,10 +23,13 @@
     },
     methods: {
       addPost: function () {
-        console.log(firebase.auth().currentUser)
+        this.post.uid = firebase.auth().currentUser.uid
         this.$firebaseRefs.posts.push(this.post).then(
           (r) => {
-            this.post = { title: '' }
+            this.post = { title: '', uid: '' }
+          },
+          (e) => {
+            console.warn(e)
           }
         )
         /*
