@@ -319,7 +319,7 @@ import config from '../config';
 
 ## Firebase (Database)
 
-Acessar https://console.firebase.google.com e criar uma conta caso seja necessário.  
+Acessar https://console.firebase.google.com e criar uma conta caso seja necessário.
 
 Crie o projeto
 
@@ -500,7 +500,7 @@ Usamos o método addPost apenas para testar, veja que definimos um provider e o 
 
 ![](images/firebase-oauth-2.png)
 
-Após o usuário logar no github dele, o callback é executado e devemos guardar o `token` no vuex para uso durante a aplicação. 
+Após o usuário logar no github dele, o callback é executado e devemos guardar o `token` no vuex para uso durante a aplicação.
 
 ## Obtendo o usuario logado
 
@@ -536,8 +536,86 @@ firebase.auth().signOut().then(function() {
 
 ## Alterando a app para responder ao usuário logado
 
+[Configure a variável user para o vuex](9aef5da82eb985463132b9f7e167f21fdaae1bee)
 
+No App.vue, no evento created, podemos verificar se o usuário está logado e em caso positivo, usar a action para preencher o state.
 
+```html
+<!-- src/App.vue -->
+<script>
+  import firebase from 'firebase'
+
+  export default {
+    name: 'app',
+    mounted: function () {
+      let t = this
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          t.$store.dispatch('setUser', user)
+        } else {
+          console.warn('Not logged')
+        }
+      })
+    }
+  }
+
+</script>
+```
+
+Como o método `onAuthStateChanged` da API do firebase nao retorna um promise criamos a variável t para manter o escopo do Vue no callback.
+
+Para configurar o menu, crie uma propriedade computada `user`
+
+```html
+<script>
+  import firebase from 'firebase'
+
+  export default {
+    name: 'app',
+    computed: {
+      user () {
+        return this.$store.getters.user
+      }
+    },
+    mounted: function () {
+      let t = this
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          t.$store.dispatch('setUser', user)
+        } else {
+          console.warn('Not logged')
+        }
+      })
+    }
+  }
+
+</script>
+```
+
+E a use no html do menu
+
+```html
+
+<template v-if="user">
+    <a class="nav-item is-tab">
+  Posts
+</a>
+    <a class="nav-item is-tab">
+  Comments
+</a>
+  </template>
+  <template v-else>
+    <a class="nav-item is-tab">
+  <router-link to="/login">Login</router-link>
+</a>
+  </template>
+```
+
+Ou os itens Posts e Comments serão vistsos, ou o link Login
+
+## Tela de login
+
+Crie o componente Login.vue
 
 
 

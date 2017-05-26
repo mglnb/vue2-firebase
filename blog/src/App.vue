@@ -16,12 +16,19 @@
           <a class="nav-item is-tab is-active">
           Home
         </a>
-          <a class="nav-item is-tab">
+        <template v-if="user">
+            <a class="nav-item is-tab">
           Posts
         </a>
-          <a class="nav-item is-tab">
+            <a class="nav-item is-tab">
           Comments
         </a>
+          </template>
+          <template v-else>
+            <a class="nav-item is-tab">
+          <router-link to="/login">Login</router-link>
+        </a>
+          </template>
         </div>
       </div>
     </nav>
@@ -36,20 +43,23 @@
 
 <script>
   import firebase from 'firebase'
+
   export default {
     name: 'app',
-    created: function () {
-      console.log(firebase.auth().currentUser)
-          /*
-          TESTAR
-          firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        // User is signed in.
-      } else {
-        // No user is signed in.
+    computed: {
+      user () {
+        return this.$store.getters.user
       }
-    });
-    */
+    },
+    mounted: function () {
+      let t = this
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          t.$store.dispatch('setUser', user)
+        } else {
+          console.warn('Not logged')
+        }
+      })
     }
   }
 
