@@ -179,3 +179,95 @@ require('../node_modules/bulma/css/bulma.css')
 require('./bradcomp.js')
 ```
 
+## Implementando o Vuex
+
+Crie o diretório `src/store` e os arquivos:
+
+```js
+// src/store/actions.js
+
+export const simpleAction = ({ commit }, text) => {
+  commit('SimpleMutation', { text })
+}
+
+```
+
+```js
+// src/store/getters.js
+
+export const getSimpleText = state => {
+  return state.simpleText
+}
+```
+
+```js
+// src/store/index.js
+
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+import * as getters from './getters'
+import * as actions from './actions'
+import { state, mutations } from './mutations'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state,
+  getters,
+  actions,
+  mutations
+})
+
+```
+
+```js
+// src/store/mutations.js
+
+/* STATE */
+export const state = {
+  simpleText: 'Hello From Vuex'
+}
+
+export const mutations = {
+
+  SimpleMutation (state, { text }) {
+    state.simpleText = text
+  }
+
+}
+
+```
+
+Seguindo o fluxo vuex:
+
+![](https://raw.githubusercontent.com/vuejs/vuex/dev/docs/en/images/vuex.png)
+
+Temos:
+
+```html
+<template>
+  <div>
+    {{$store.getters.getSimpleText}}
+    <button @click="changeSimpleText">Change</button>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'hello',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    },
+    methods: {
+      changeSimpleText: function () {
+        this.$store.dispatch('simpleAction', 'Text Changed')
+      }
+    }
+  }
+
+</script>
+```
+
