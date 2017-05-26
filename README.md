@@ -355,24 +355,8 @@ Também pode ser:
 }
 ```
 
-Vamos configurar o arquivo de configuração do Firebase:
 
-```js
-// src/firebase.js
-import Firebase from 'firebase'
-
-var FirebaseApp = Firebase.initializeApp({
-  apiKey: 'AIzaSsyC17mIsDkk38TZGnI9mBjzFIoCu904snn0',
-  authDomain: 'vue2napratica.firebaseapp.com',
-  databaseURL: 'https://vue2napratica.firebaseio.com',
-  projectId: 'vue2napratica',
-  storageBucket: 'vue2napratica.appspot.com',
-  messagingSenderId: '779719236528'
-})
-export const db = FirebaseApp.database()
-```
-
-E a configuração do VueFire:
+E a configuração do firebase+VueFire:
 
 ```js
 // src/main.js
@@ -384,11 +368,21 @@ import router from './router'
 import store from './store'
 import VueResource from 'vue-resource'
 import VueFire from 'vuefire'
+import firebase from 'firebase'
 
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
 Vue.use(VueFire)
+
+firebase.initializeApp({
+  apiKey: 'AIzaSyC17mIsDkk38TZGnI9mBjzFIoCu904snn0',
+  authDomain: 'vue2napratica.firebaseapp.com',
+  databaseURL: 'https://vue2napratica.firebaseio.com',
+  projectId: 'vue2napratica',
+  storageBucket: 'vue2napratica.appspot.com',
+  messagingSenderId: '779719236528'
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -415,7 +409,7 @@ Para usar o firebase:
 </template>
 
 <script>
-  import { db } from '../firebase'
+  import firebase from 'firebase'
 
   export default {
     name: 'hello',
@@ -427,7 +421,7 @@ Para usar o firebase:
       }
     },
     firebase: {
-      posts: db.ref('posts')
+      posts: firebase.database().ref('posts')
     },
     methods: {
       addPost: function () {
@@ -460,7 +454,6 @@ Apenas como teste, vamos voltar no componente Hello.vue para testar o login:
 
 ```html
 <script>
-  import { db } from '../firebase'
   import firebase from 'firebase'
 
   export default {
@@ -473,7 +466,7 @@ Apenas como teste, vamos voltar no componente Hello.vue para testar o login:
       }
     },
     firebase: {
-      posts: db.ref('posts')
+      posts: firebase.database().ref('posts')
     },
     methods: {
       addPost: function () {
@@ -543,7 +536,7 @@ firebase.auth().signOut().then(function() {
 
 ## Alterando a app para responder ao usuário logado
 
-TODO: Alterar a forma como o firebase é instanciado
+
 
 
 
