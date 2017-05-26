@@ -343,7 +343,17 @@ Permita que qualquer um possa acessar o Database:
   }
 }
 ```
-Clique em `publicar`.
+
+Também pode ser:
+
+```json
+{
+  "rules": {
+    ".read": "true",
+    ".write": "true"
+  }
+}
+```
 
 Vamos configurar o arquivo de configuração do Firebase:
 
@@ -530,6 +540,23 @@ firebase.auth().signOut().then(function() {
   // An error happened.
 });
 ```
+
+## Alterando a app para responder ao usuário logado
+
+TODO: Alterar a forma como o firebase é instanciado
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Regras de escrita no BD
 

@@ -1,6 +1,8 @@
+
 /* STATE */
 export const state = {
-  simpleText: 'Hello From Vuex'
+  simpleText: 'Hello From Vuex',
+  user: null
 }
 
 export const mutations = {

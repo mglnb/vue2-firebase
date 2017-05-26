@@ -35,8 +35,22 @@
 </template>
 
 <script>
+  import firebase from 'firebase'
   export default {
-    name: 'app'
+    name: 'app',
+    created: function () {
+      console.log(firebase.auth().currentUser)
+          /*
+          TESTAR
+          firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+      } else {
+        // No user is signed in.
+      }
+    });
+    */
+    }
   }
 
 </script>

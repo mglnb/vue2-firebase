@@ -7,7 +7,6 @@
 </template>
 
 <script>
-  import { db } from '../firebase'
   import firebase from 'firebase'
 
   export default {
@@ -20,16 +19,17 @@
       }
     },
     firebase: {
-      posts: db.ref('posts')
+      posts: firebase.database().ref('posts')
     },
     methods: {
       addPost: function () {
-        /*
+        console.log(firebase.auth().currentUser)
         this.$firebaseRefs.posts.push(this.post).then(
           (r) => {
             this.post = { title: '' }
           }
         )
+        /*
         var provider = new firebase.auth.GithubAuthProvider()
         firebase.auth().signInWithPopup(provider).then(function (result) {
           // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -42,9 +42,8 @@
         }).catch(function (error) {
           console.warn(error)
         })
+         console.log(firebase.auth().currentUser)
       */
-
-        console.log(firebase.auth().currentUser)
       }
     }
   }
