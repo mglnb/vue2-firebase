@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-require('../node_modules/bulma/css/bulma.css')
 
 Vue.config.productionTip = false
 
@@ -14,3 +13,6 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+require('../node_modules/bulma/css/bulma.css')
+require('./bradcomp.js')
