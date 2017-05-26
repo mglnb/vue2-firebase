@@ -556,7 +556,7 @@ firebase.auth().signOut().then(function() {
 
 ## Alterando a app para responder ao usuário logado
 
-[Configure a variável user para o vuex](9aef5da82eb985463132b9f7e167f21fdaae1bee)
+[Configure a variável user para o vuex](https://github.com/danielschmitz/vue2-firebase/commit/9aef5da82eb985463132b9f7e167f21fdaae1bee)
 
 No App.vue, no evento created, podemos verificar se o usuário está logado e em caso positivo, usar a action para preencher o state.
 
