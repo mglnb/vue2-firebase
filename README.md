@@ -179,6 +179,26 @@ require('../node_modules/bulma/css/bulma.css')
 require('./bradcomp.js')
 ```
 
+## Instalando o font-awesome
+
+Pode se pelo npn e na mesma forma que o bulma foi feito. Vamos diferenciar para ver outra forma, através do CDN. No arquivo index.html, adicione o viewport e o cdn do fontawesome:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <title>blog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+```
+
 ## Implementando o Vuex
 
 Crie o diretório `src/store` e os arquivos:
@@ -617,6 +637,67 @@ Ou os itens Posts e Comments serão vistsos, ou o link Login
 
 Crie o componente Login.vue
 
+```html
+<template>
+  <div>
+    <h2> Login </h2>
+    <div class="has-text-centered">
+      <a class="button is-large" @click="loginGitHub">
+    <span class="icon is-medium">
+      <i class="fa fa-github"></i>
+    </span>
+    <span>GitHub</span>
+  </a>
+    </div>
+  </div>
+</template>
+
+<script>
+  import firebase from 'firebase'
+
+  export default {
+    name: 'Login',
+    methods: {
+      loginGitHub: function () {
+        var provider = new firebase.auth.GithubAuthProvider()
+        var t = this
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+          var user = result.user
+          t.$store.dispatch('setUser', user)
+          t.$router.push('/')
+        }).catch(function (error) {
+          console.warn(error)
+        })
+      }
+    }
+  }
+
+</script>
+```
+## Logout
+
+Adicione o botão de logout na App.vue
+
+```html
+<a class="nav-item is-tab" @click="logout">
+ Logout
+</a>
+```
+
+e o método:
+
+```js
+    methods: {
+      logout: function () {
+        let t = this
+        firebase.auth().signOut().then(function () {
+          t.$store.dispatch('setUser', null)
+        }, function (error) {
+          console.warn(error)
+        })
+      }
+    }
+```
 
 
 

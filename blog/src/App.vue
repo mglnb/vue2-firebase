@@ -14,20 +14,24 @@
         </span>
         <div class="nav-right nav-menu">
           <a class="nav-item is-tab is-active">
-          Home
-        </a>
-        <template v-if="user">
+            <router-link to="/login">Home</router-link>
+          </a>
+          <template v-if="user">
             <a class="nav-item is-tab">
           Posts
         </a>
             <a class="nav-item is-tab">
           Comments
         </a>
+            <a class="nav-item is-tab" @click="logout">
+          Logout
+        </a>
+
           </template>
           <template v-else>
             <a class="nav-item is-tab">
-          <router-link to="/login">Login</router-link>
-        </a>
+              <router-link to="/login">Login</router-link>
+            </a>
           </template>
         </div>
       </div>
@@ -60,6 +64,16 @@
           console.warn('Not logged')
         }
       })
+    },
+    methods: {
+      logout: function () {
+        let t = this
+        firebase.auth().signOut().then(function () {
+          t.$store.dispatch('setUser', null)
+        }, function (error) {
+          console.warn(error)
+        })
+      }
     }
   }
 
