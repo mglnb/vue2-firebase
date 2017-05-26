@@ -5,10 +5,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 import VueResource from 'vue-resource'
+import VueFire from 'vuefire'
 
 Vue.config.productionTip = false
 
 Vue.use(VueResource)
+Vue.use(VueFire)
 
 /* eslint-disable no-new */
 new Vue({
@@ -21,3 +23,4 @@ new Vue({
 
 require('../node_modules/bulma/css/bulma.css')
 require('./bradcomp.js')
+

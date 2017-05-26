@@ -26,7 +26,7 @@ npm run dev
 Adicionar bibliotecas Vue
 
 ```console
-npm i -S vuex vue-resource bulma
+npm i -S vuex vue-resource bulma firebase vuefire
 ```
 
 Adicionar o arquivo css do Bulma no projeto
@@ -299,3 +299,141 @@ new Vue({
 require('../node_modules/bulma/css/bulma.css')
 require('./bradcomp.js')
 ```
+
+## Arquivo de configuração
+
+Criar o arquivo `src/config.js`
+
+```js
+// src/config.js
+export default {
+  url: 'http://localhost:8080'
+}
+```
+
+Usar onde quiser:
+
+```js
+import config from '../config';
+```
+
+## Firebase (Database)
+
+Acessar https://console.firebase.google.com e criar uma conta caso seja necessário.  
+
+Crie o projeto
+
+![](images/firebase-create-project.png)
+
+Clique para adicionar o firebase no projeto web
+
+![](images/add-firebase-to-project.png)
+
+Observe o JSON de configuração. Copie-o!
+
+Permita que qualquer um possa acessar o Database:
+
+![](images/firebase-rules.png)
+
+```json
+{
+  "rules": {
+    ".read": "auth == null",
+    ".write": "auth == null"
+  }
+}
+```
+Clique em `publicar`.
+
+Vamos configurar o arquivo de configuração do Firebase:
+
+```js
+// src/firebase.js
+import Firebase from 'firebase'
+
+var FirebaseApp = Firebase.initializeApp({
+  apiKey: 'AIzaSsyC17mIsDkk38TZGnI9mBjzFIoCu904snn0',
+  authDomain: 'vue2napratica.firebaseapp.com',
+  databaseURL: 'https://vue2napratica.firebaseio.com',
+  projectId: 'vue2napratica',
+  storageBucket: 'vue2napratica.appspot.com',
+  messagingSenderId: '779719236528'
+})
+export const db = FirebaseApp.database()
+```
+
+E a configuração do VueFire:
+
+```js
+// src/main.js
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import store from './store'
+import VueResource from 'vue-resource'
+import VueFire from 'vuefire'
+
+Vue.config.productionTip = false
+
+Vue.use(VueResource)
+Vue.use(VueFire)
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  store,
+  template: '<App/>',
+  components: { App }
+})
+
+require('../node_modules/bulma/css/bulma.css')
+require('./bradcomp.js')
+```
+
+Para usar o firebase:
+
+```html
+<template>
+  <div>
+    <input type="text" v-model="post.title"></input>
+    <button @click="addPost">Add</button>
+    <pre>{{posts}}</pre>
+  </div>
+</template>
+
+<script>
+  import { db } from '../firebase'
+
+  export default {
+    name: 'hello',
+    data () {
+      return {
+        post: {
+          title: ''
+        }
+      }
+    },
+    firebase: {
+      posts: db.ref('posts')
+    },
+    methods: {
+      addPost: function () {
+        this.$firebaseRefs.posts.push(this.post).then(
+          (r) => {
+            this.post = { title: '' }
+          }
+        )
+      }
+    }
+  }
+
+</script>
+
+```
+
+
+
+

@@ -1,21 +1,33 @@
 <template>
   <div>
-    {{$store.getters.getSimpleText}}
-    <button @click="changeSimpleText">Change</button>
+    <input type="text" v-model="post.title"></input>
+    <button @click="addPost">Add</button>
+    <pre>{{posts}}</pre>
   </div>
 </template>
 
 <script>
+  import { db } from '../firebase'
+
   export default {
     name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        post: {
+          title: ''
+        }
       }
     },
+    firebase: {
+      posts: db.ref('posts')
+    },
     methods: {
-      changeSimpleText: function () {
-        this.$store.dispatch('simpleAction', 'Text Changed')
+      addPost: function () {
+        this.$firebaseRefs.posts.push(this.post).then(
+          (r) => {
+            this.post = { title: '' }
+          }
+        )
       }
     }
   }
