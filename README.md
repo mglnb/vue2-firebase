@@ -434,6 +434,8 @@ Para usar o firebase:
 
 ```
 
+## Autenticação pelo Github
+
 
 
 
