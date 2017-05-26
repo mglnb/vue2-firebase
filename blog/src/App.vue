@@ -14,7 +14,7 @@
         </span>
         <div class="nav-right nav-menu">
           <a class="nav-item is-tab is-active">
-            <router-link to="/login">Home</router-link>
+            <router-link to="/">Home</router-link>
           </a>
           <template v-if="user">
             <a class="nav-item is-tab">
