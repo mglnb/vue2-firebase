@@ -18,7 +18,7 @@
           </a>
           <template v-if="user">
             <a class="nav-item is-tab">
-          Posts
+           <router-link to="/addPost">Add Post</router-link>
         </a>
             <a class="nav-item is-tab">
           Comments

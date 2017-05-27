@@ -11,6 +11,7 @@ export default new Router({
   routes: [
     { path: '/', name: 'Hello', component: load('Hello') },
     { path: '/login', name: 'Login', component: load('Login') },
+    { path: '/addPost', name: 'AddPost', component: load('AddPost') },
     { path: '*', component: load('Error404') }
   ]
 })
