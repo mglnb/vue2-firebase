@@ -24,6 +24,13 @@
         firebase.auth().signInWithPopup(provider).then(function (result) {
           var user = result.user
           t.$store.dispatch('setUser', user)
+
+          firebase.database().ref('users/' + user.uid).set({
+            name: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL
+          })
+
           t.$router.push('/')
         }).catch(function (error) {
           console.warn(error)

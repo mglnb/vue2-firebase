@@ -80,5 +80,7 @@
 </script>
 
 <style>
-
+.img-circle {
+    border-radius: 50%;
+}
 </style>

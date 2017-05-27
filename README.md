@@ -873,3 +873,68 @@ Renomear Hello para Home:
 </style>
 
 ```
+
+# Gravando usuários no login
+
+```js
+//src/components/Login.vue
+    loginGitHub: function () {
+      var provider = new firebase.auth.GithubAuthProvider()
+      var t = this
+      firebase.auth().signInWithPopup(provider).then(function (result) {
+        var user = result.user
+        t.$store.dispatch('setUser', user)
+
+        firebase.database().ref('users/' + user.uid).set({
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL
+        })
+
+        t.$router.push('/')
+      }).catch(function (error) {
+        console.warn(error)
+      })
+    }
+```
+
+Regras do firebase:
+
+```json
+{
+  "rules": {
+    "posts": {
+     ".read": true,
+      "$uid": {
+        ".write": "newData.exists() || $uid === auth.uid"
+      }
+    },
+    "users": {
+        "$uid": {
+        ".write": "newData.exists() || $uid === auth.uid",
+          ".read": "true"
+      }
+    }
+  }
+}
+```
+
+# Recuperando posts e respectivos usuários
+
+Alterar no Home a forma como os posts são carregados:
+
+```js
+    mounted() {
+      let t = this;
+      firebase.database().ref('posts').on('child_added', function (data) {
+        let post = data.val()
+        firebase.database().ref('/users/' + post.uid).once('value').then(function (snapshot) {
+          post.user = snapshot.val()
+          t.posts.push(post)
+          console.log(post)
+        })
+      })
+    },
+```
+
+

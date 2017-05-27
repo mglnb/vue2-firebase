@@ -3,20 +3,26 @@
     <div v-for="post in posts">
       <div class="card">
         <div class="card-content">
-          <div class="media">
+          <div class="media pull-right">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img class="img-circle" :src="post.user.photoUrl" alt="Image">
+              </figure>
+            </div>
             <div class="media-content">
-              <p class="title is-4">{{post.title}}</p>
-              <p class="subtitle is-6">by user (todo)</p>
+              <p class="title is-4">{{post.user.name}}</p>
+              <p class="subtitle is-6">{{post.user.email}}</p>
             </div>
           </div>
-
+          <h3>{{post.title}}</h3>
           <div class="content">
             {{post.message}}
             <br>
             <small>date</small>
           </div>
+
         </div>
-        <footer class="card-footer" v-if="post.uid===user.uid">
+        <footer class="card-footer" v-if="user!=null && post.uid===user.uid">
           <a class="card-footer-item" @click="editPost">Editar</a>
           <a class="card-footer-item" @click="deletePost">Remover</a>
         </footer>
@@ -37,7 +43,8 @@
       return {
         post: {
           title: ''
-        }
+        },
+        posts: []
       }
     },
     computed: {
@@ -45,8 +52,16 @@
         return this.$store.getters.user
       }
     },
-    firebase: {
-      posts: firebase.database().ref('posts')
+    mounted() {
+      let t = this;
+      firebase.database().ref('posts').on('child_added', function (data) {
+        let post = data.val()
+        firebase.database().ref('/users/' + post.uid).once('value').then(function (snapshot) {
+          post.user = snapshot.val()
+          t.posts.push(post)
+          console.log(post)
+        })
+      })
     },
     methods: {
       addPost: function () {
@@ -66,13 +81,12 @@
       editPost() {
         console.log('edit')
       }
-
     }
   }
 
 </script>
 
 
-<style scoped>
+<style>
 
 </style>
