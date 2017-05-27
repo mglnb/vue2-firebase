@@ -6,7 +6,7 @@
           <div class="media">
             <div class="media-content">
               <p class="title is-4">{{post.title}}</p>
-              <p class="subtitle is-6">by user</p>
+              <p class="subtitle is-6">by user (todo)</p>
             </div>
           </div>
 
