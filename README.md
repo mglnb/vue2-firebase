@@ -718,7 +718,7 @@ Através da regra abaixo configuramos que o qualquer pessoa pode ler os posts, e
 
 ## Adicionando um Post
 
-Após configurar o App.vue para o menu ir para /addPost, crie o arquivo `components/AddPost.vue` com o seguinte código
+Após configurar o App.vue para o menu ir para /addPost (router tb), crie o arquivo `components/AddPost.vue` com o seguinte código
 
 ```html
 <template>
@@ -788,5 +788,9 @@ Após configurar o App.vue para o menu ir para /addPost, crie o arquivo `compone
 
 </script>
 ```
+
+## Vendo posts
+
+Renomear Hello para Home:
 
 
