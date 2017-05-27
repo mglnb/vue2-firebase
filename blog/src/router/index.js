@@ -9,7 +9,7 @@ function load (component) {
 
 export default new Router({
   routes: [
-    { path: '/', name: 'Hello', component: load('Hello') },
+    { path: '/', name: 'Home', component: load('Home') },
     { path: '/login', name: 'Login', component: load('Login') },
     { path: '/addPost', name: 'AddPost', component: load('AddPost') },
     { path: '*', component: load('Error404') }

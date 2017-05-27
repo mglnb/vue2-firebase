@@ -26,7 +26,7 @@
 
   export default {
     name: 'AddPost',
-    data () {
+    data() {
       return {
         post: {
           title: '',
@@ -35,7 +35,7 @@
       }
     },
     computed: {
-      user () {
+      user() {
         return this.$store.getters.user
       }
     },
